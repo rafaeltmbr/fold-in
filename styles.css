@@ -1,0 +1,145 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.fold-in * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.fold-in {
+  display: inline-block;
+  position: relative;
+  width: var(--width);
+  perspective: 1600px;
+  perspective-origin: 0 400px;
+  transform: rotate3d(1, 0, 0, 15deg);
+
+  --delay-factor: 0.17;
+}
+
+.fold-in img {
+  width: 100%;
+  opacity: 0;
+}
+
+.fold-in .left-half {
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-image: var(--img);
+  background-position: left top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.fold-in .fold-container {
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: 0 50%;
+  perspective: inherit;
+  transform-style: preserve-3d;
+  transition-delay: calc(var(--duration) * var(--delay-factor));
+}
+
+.fold-in .left-quarter {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  position: relative;
+}
+
+.fold-in .left-quarter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+}
+
+.fold-in .left-quarter::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: var(--img);
+  background-position: calc(var(--width) * -0.5) top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  backface-visibility: hidden;
+}
+
+.fold-in .right-quarter {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  position: relative;
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+  transition-delay: 0s;
+}
+
+.fold-in .right-quarter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+}
+
+.fold-in .right-quarter::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: var(--img);
+  background-position: calc(var(--width) * -0.75) top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  backface-visibility: hidden;
+}
+
+/*      ANIMATIONS       */
+
+.fold-in .fold-container,
+.fold-in .right-quarter {
+  transition-property: transform;
+  transition-duration: var(--duration);
+}
+
+.fold-in:hover .fold-container {
+  transform: rotateY(-180deg);
+  transition-delay: 0s;
+}
+
+.fold-in:hover .right-quarter {
+  transform: rotateY(180deg);
+  transition-delay: calc(var(--duration) * var(--delay-factor));
+}
